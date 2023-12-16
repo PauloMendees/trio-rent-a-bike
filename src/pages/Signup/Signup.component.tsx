@@ -25,6 +25,7 @@ export const Signup = () => {
         <Typography>Welcome, put your informations to register</Typography>
         <Form data-testid="form-container" onSubmit={onSubmit}>
           <Input
+            id="name-input"
             data-testid="name-input"
             {...register('name')}
             error={!!errors.name?.message}
@@ -43,6 +44,7 @@ export const Signup = () => {
           )}
           <Input
             data-testid="email-input"
+            id="email-input"
             {...register('email')}
             error={!!errors.email?.message}
             label="Email"
@@ -59,6 +61,7 @@ export const Signup = () => {
             <ErrorMessage data-testid="email-error-message">{errors.email?.message}</ErrorMessage>
           )}
           <Input
+            id="password-input"
             data-testid="password-input"
             error={!!errors.password?.message}
             {...register('password')}

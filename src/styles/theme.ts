@@ -25,6 +25,7 @@ const theme = createTheme({
     },
     common: {
       black: '#1B1B1B',
+      white: 'rgba(255, 255, 255, 1)',
     },
     error: {
       main: '#FF0000',

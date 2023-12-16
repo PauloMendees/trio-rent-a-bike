@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { userDataKey } from 'config/localStorage';
 import { AxiosError } from 'axios';
-import { User } from 'types/user';
+import { User } from 'models/User';
 
 export const useSignup = () => {
   const [loading, setLoading] = useState<boolean>(false);

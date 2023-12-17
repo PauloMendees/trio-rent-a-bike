@@ -2,15 +2,15 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { CalendarComponentProps, Period } from '../types';
 
-export const useCalendar = ({ onChangeDate }: CalendarComponentProps) => {
+export const useCalendar = ({ onChangePeriod, defaultPeriod }: CalendarComponentProps) => {
   const today = dayjs();
   const [selectedMonth, setSelectedMonth] = useState<number>(today.month());
   const [selectedYear, setSelectedYear] = useState<number>(today.year());
-  const [period, setPeriod] = useState<Partial<Period>>({});
+  const [period, setPeriod] = useState<Partial<Period>>(defaultPeriod || {});
 
   useEffect(() => {
-    if (period.endDate && period.startDate && onChangeDate) {
-      onChangeDate(period as Period);
+    if (period.endDate && period.startDate && onChangePeriod) {
+      onChangePeriod(period as Period);
     }
   }, [period]);
 

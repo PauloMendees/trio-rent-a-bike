@@ -16,11 +16,13 @@ const theme = createTheme({
       main: '#1F49D1',
       light: '#C1CFF2',
       600: '#577CDD',
+      contrastText: '#5071DB',
     },
     secondary: {
       main: '#FFD775',
     },
     grey: {
+      100: 'rgba(237, 237, 237, 1)',
       500: '#EDEDED',
     },
     common: {

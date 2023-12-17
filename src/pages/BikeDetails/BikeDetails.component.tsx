@@ -25,10 +25,15 @@ import {
   FavoriteIcon,
   InfoIcon,
   LikeButton,
+  MobileDatePicker,
+  MobileSelectDateButton,
   OverviewContainer,
   PriceRow,
 } from './BikeDetails.styles';
 import Calendar from 'components/Calendar';
+import SwipeableDrawer from 'components/SwipeableDrawer';
+import { useBikeDetails } from './hooks/useBikeDetails';
+import { CalendarIcon } from 'assets/icons/Calendar';
 
 interface BikeDetailsProps {
   bike?: Bike;
@@ -42,7 +47,12 @@ const BikeDetails = ({ bike }: BikeDetailsProps) => {
   const total = rateByDay + servicesFee;
 
   const theme = useTheme();
-  const isMobileScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const { selectedPeriod, onChangePeriod, openMobileDrawer, mobileDataLabel, toggleMobileDrawer } =
+    useBikeDetails({
+      bike,
+    });
 
   return (
     <div data-testid="bike-details-page">
@@ -130,10 +140,21 @@ const BikeDetails = ({ bike }: BikeDetailsProps) => {
           <Box></Box>
 
           {isMobileScreen ? (
-            <></>
+            <>
+              <MobileDatePicker onClick={toggleMobileDrawer}>
+                <CalendarIcon />
+                {mobileDataLabel}
+              </MobileDatePicker>
+              <SwipeableDrawer open={openMobileDrawer} toggleOpen={toggleMobileDrawer}>
+                <Calendar defaultPeriod={selectedPeriod} onChangePeriod={onChangePeriod} />
+                <MobileSelectDateButton type="button" onClick={toggleMobileDrawer}>
+                  Select
+                </MobileSelectDateButton>
+              </SwipeableDrawer>
+            </>
           ) : (
             <CalendarContainer>
-              <Calendar />
+              <Calendar onChangePeriod={onChangePeriod} />
             </CalendarContainer>
           )}
           <Typography variant="h2" fontSize={16} marginBottom={1.25} marginTop={'22px'}>

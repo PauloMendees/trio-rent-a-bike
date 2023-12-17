@@ -57,4 +57,19 @@ export const months = [
   'December',
 ];
 
+export const abreviatedMonths = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
 export const daysOfTheWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];

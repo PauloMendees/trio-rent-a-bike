@@ -102,3 +102,43 @@ export const CalendarContainer = styled(Box)(() => ({
   borderRadius: '28px',
   backgroundColor: theme.palette.primary.main,
 }));
+
+export const MobileDatePicker = styled('button')(() => ({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '12px',
+  padding: '0 15px',
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  borderColor: theme.palette.grey[100],
+  borderRadius: '30px',
+  height: '56px',
+  backgroundColor: 'transparent',
+  fontWeight: 600,
+  fontSize: '16px',
+  color: theme.palette.common.black,
+}));
+
+export const MobileSelectDateButton = styled(Button)<ButtonProps>(({ theme }) => ({
+  marginTop: '66px',
+  width: '100%',
+  borderRadius: '20px',
+  backgroundColor: theme.palette.secondary.main,
+  padding: '18px 0',
+  fontSize: '16px',
+  fontWeight: 800,
+  color: theme.palette.common.black,
+  textTransform: 'none',
+  transition: 'all 0.3s ease-in-out',
+
+  ':active': {
+    backgroundColor: theme.palette.secondary.main,
+    opacity: 0.8,
+  },
+
+  ':hover': {
+    backgroundColor: theme.palette.secondary.main,
+    opacity: 0.8,
+  },
+}));

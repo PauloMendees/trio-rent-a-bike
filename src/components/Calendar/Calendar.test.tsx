@@ -1,12 +1,12 @@
 import { act, render, screen } from '@testing-library/react';
-import Calendar from './Calendar.container';
+import Calendar from './Calendar.component';
 import userEvent from '@testing-library/user-event';
 
 const mockedChangeDate = jest.fn();
 
 describe('Calendar component test', () => {
   beforeEach(() => {
-    render(<Calendar onChangeDate={mockedChangeDate} />);
+    render(<Calendar onChangePeriod={mockedChangeDate} />);
   });
 
   it('Should render the Calendar component', () => {

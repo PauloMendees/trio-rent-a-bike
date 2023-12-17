@@ -3,8 +3,10 @@ import theme from 'styles/theme';
 import { StyledDayProps } from './types';
 
 export const Container = styled(Box)(() => ({
+  maxWidth: '350px',
   width: '100%',
   color: theme.palette.common.white,
+  margin: '0 auto',
 }));
 
 export const Header = styled(Box)(() => ({
@@ -58,23 +60,21 @@ export const DayContainer = styled(Box)(() => ({
 }));
 
 export const IntervalBackground = styled(Box)(() => ({
-  width: '51.5px',
+  width: '53.5px',
   height: '40px',
   position: 'absolute',
-  backgroundColor: theme.palette.primary.light,
-  opacity: 0.3,
+  backgroundColor: theme.palette.primary.contrastText,
 }));
 
 export const SelectedDayCircleContainer = styled(Box)<{ startdate?: 'true' | 'false' }>(
   ({ startdate }) => ({
-    width: '51.5px',
+    width: '53.5px',
     height: '40px',
     position: 'absolute',
-    opacity: 0.3,
     background: `linear-gradient(to ${
       startdate === 'true' ? 'right' : 'left'
-    }, transparent 0%, transparent 30px, ${theme.palette.primary.light} 30px, ${
-      theme.palette.primary.light
+    }, transparent 0%, transparent 30px, ${theme.palette.primary.contrastText} 30px, ${
+      theme.palette.primary.contrastText
     } 100%)`,
 
     //   backgroundColor: theme.palette.primary.light,

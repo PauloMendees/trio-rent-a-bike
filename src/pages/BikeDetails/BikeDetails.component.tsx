@@ -40,19 +40,22 @@ interface BikeDetailsProps {
 }
 
 const BikeDetails = ({ bike }: BikeDetailsProps) => {
-  const rateByDay = bike?.rate || 0;
-  const rateByWeek = rateByDay * 7;
-
-  const servicesFee = getServicesFee(rateByDay);
-  const total = rateByDay + servicesFee;
-
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const { selectedPeriod, onChangePeriod, openMobileDrawer, mobileDataLabel, toggleMobileDrawer } =
-    useBikeDetails({
-      bike,
-    });
+  const {
+    onChangePeriod,
+    toggleMobileDrawer,
+    prices,
+    rateByDay,
+    rateByWeek,
+    servicesFee,
+    selectedPeriod,
+    mobileDataLabel,
+    openMobileDrawer,
+  } = useBikeDetails({
+    bike,
+  });
 
   return (
     <div data-testid="bike-details-page">
@@ -169,7 +172,7 @@ const BikeDetails = ({ bike }: BikeDetailsProps) => {
               <InfoIcon fontSize="small" />
             </Box>
 
-            <Typography>{rateByDay} €</Typography>
+            <Typography>{prices.subtotal} €</Typography>
           </PriceRow>
 
           <PriceRow marginTop={1.5} data-testid="bike-overview-single-price">
@@ -186,7 +189,7 @@ const BikeDetails = ({ bike }: BikeDetailsProps) => {
               Total
             </Typography>
             <Typography variant="h2" fontSize={24} letterSpacing={1}>
-              {total} €
+              {prices.total} €
             </Typography>
           </PriceRow>
 

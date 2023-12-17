@@ -19,8 +19,6 @@ export const useBikeDetails = ({ bike }: Props) => {
   const rateByDay = bike?.rate || 0;
   const rateByWeek = rateByDay * 7;
 
-  const servicesFee = getServicesFee(rateByDay);
-
   const [selectedPeriod, setSelectedPeriod] = useState<Period>();
   const [openMobileDrawer, setOpenMobileDrawer] = useState(false);
   const [isBooked, setIsBooked] = useState<boolean>(false);
@@ -41,7 +39,8 @@ export const useBikeDetails = ({ bike }: Props) => {
     if (!selectedPeriod)
       return {
         subtotal: 0,
-        total: servicesFee,
+        total: 0,
+        servicesFee: 0,
       };
 
     const days = selectedPeriod.endDate.diff(selectedPeriod.startDate, 'days') + 1;
@@ -49,13 +48,15 @@ export const useBikeDetails = ({ bike }: Props) => {
     const remainingDays = days % 7;
 
     const subtotal = weeks * rateByWeek + remainingDays * rateByDay;
+    const servicesFee = getServicesFee(subtotal);
     const total = subtotal + servicesFee;
 
     return {
       subtotal,
       total,
+      servicesFee,
     };
-  }, [selectedPeriod, rateByDay, rateByWeek, servicesFee]);
+  }, [selectedPeriod, rateByDay, rateByWeek]);
 
   const mobileDataLabel = useMemo(() => {
     return `From ${
@@ -109,7 +110,7 @@ export const useBikeDetails = ({ bike }: Props) => {
     toggleMobileDrawer,
     rateByDay,
     rateByWeek,
-    servicesFee,
+    servicesFee: prices.servicesFee,
     prices,
     isBooked,
     rent,

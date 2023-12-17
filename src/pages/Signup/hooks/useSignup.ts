@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { SignupScheme, SignupFormType } from './scheme';
+import { SignupScheme, SignupFormType } from '../scheme';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMemo, useState } from 'react';
 import apiClient from 'services/api';

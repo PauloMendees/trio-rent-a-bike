@@ -11,7 +11,7 @@ import {
   SubmitButton,
 } from './Signup.styles';
 import { AccountCircle, PasswordOutlined } from '@mui/icons-material';
-import { useSignup } from './useSignup';
+import { useSignup } from './hooks/useSignup';
 
 export const Signup = () => {
   const { errors, onSubmit, register, loading } = useSignup();

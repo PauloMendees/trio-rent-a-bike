@@ -7,6 +7,7 @@ import {
   CardProps,
   IconButton,
   IconButtonProps,
+  Modal,
   styled,
 } from '@mui/material';
 import FavoriteBorderOutlined from '@mui/icons-material/FavoriteBorderOutlined';
@@ -141,4 +142,19 @@ export const MobileSelectDateButton = styled(Button)<ButtonProps>(({ theme }) =>
     backgroundColor: theme.palette.secondary.main,
     opacity: 0.8,
   },
+}));
+
+export const BookedModal = styled(Modal)(() => ({
+  width: '100%',
+  height: '100%',
+}));
+
+export const BookedModalContainer = styled(Box)(() => ({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
 }));

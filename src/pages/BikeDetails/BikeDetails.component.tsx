@@ -1,6 +1,7 @@
 import {
   Box,
   Breadcrumbs,
+  CircularProgress,
   Divider,
   Link,
   Typography,
@@ -13,8 +14,9 @@ import BikeType from 'components/BikeType';
 import BookingAddressMap from 'components/BookingAddressMap';
 import Header from 'components/Header';
 import Bike from 'models/Bike';
-import { getServicesFee } from './BikeDetails.utils';
 import {
+  BookedModal,
+  BookedModalContainer,
   BookingButton,
   BreadcrumbContainer,
   BreadcrumbHome,
@@ -34,6 +36,7 @@ import Calendar from 'components/Calendar';
 import SwipeableDrawer from 'components/SwipeableDrawer';
 import { useBikeDetails } from './hooks/useBikeDetails';
 import { CalendarIcon } from 'assets/icons/Calendar';
+import BookedBike from 'components/BookedBike';
 
 interface BikeDetailsProps {
   bike?: Bike;
@@ -44,10 +47,15 @@ const BikeDetails = ({ bike }: BikeDetailsProps) => {
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const {
+    openBookedModal,
+    toggleBookedModal,
+    rent,
     onChangePeriod,
     toggleMobileDrawer,
     prices,
+    isBooked,
     rateByDay,
+    isLoading,
     rateByWeek,
     servicesFee,
     selectedPeriod,
@@ -136,73 +144,83 @@ const BikeDetails = ({ bike }: BikeDetailsProps) => {
           </Box>
         </DetailsContainer>
 
-        <OverviewContainer variant="outlined" data-testid="bike-overview-container">
-          <Typography variant="h2" fontSize={24} fontWeight={'800'}>
-            Select date and time
-          </Typography>
-          <Box></Box>
-
-          {isMobileScreen ? (
-            <>
-              <MobileDatePicker onClick={toggleMobileDrawer}>
-                <CalendarIcon />
-                {mobileDataLabel}
-              </MobileDatePicker>
-              <SwipeableDrawer open={openMobileDrawer} toggleOpen={toggleMobileDrawer}>
-                <Calendar defaultPeriod={selectedPeriod} onChangePeriod={onChangePeriod} />
-                <MobileSelectDateButton type="button" onClick={toggleMobileDrawer}>
-                  Select
-                </MobileSelectDateButton>
-              </SwipeableDrawer>
-            </>
-          ) : (
-            <CalendarContainer>
-              <Calendar onChangePeriod={onChangePeriod} />
-            </CalendarContainer>
-          )}
-          <Typography variant="h2" fontSize={16} marginBottom={1.25} marginTop={'22px'}>
-            Booking Overview
-          </Typography>
-
-          <Divider />
-
-          <PriceRow marginTop={1.75} data-testid="bike-overview-single-price">
-            <Box display="flex" alignItems="center">
-              <Typography marginRight={1}>Subtotal</Typography>
-              <InfoIcon fontSize="small" />
-            </Box>
-
-            <Typography>{prices.subtotal} €</Typography>
-          </PriceRow>
-
-          <PriceRow marginTop={1.5} data-testid="bike-overview-single-price">
-            <Box display="flex" alignItems="center">
-              <Typography marginRight={1}>Service Fee</Typography>
-              <InfoIcon fontSize="small" />
-            </Box>
-
-            <Typography>{servicesFee} €</Typography>
-          </PriceRow>
-
-          <PriceRow marginTop={1.75} data-testid="bike-overview-total">
-            <Typography fontWeight={800} fontSize={16}>
-              Total
+        {isBooked ? (
+          <BookedBike bike={bike} />
+        ) : (
+          <OverviewContainer variant="outlined" data-testid="bike-overview-container">
+            <Typography variant="h2" fontSize={24} fontWeight={'800'}>
+              Select date and time
             </Typography>
-            <Typography variant="h2" fontSize={24} letterSpacing={1}>
-              {prices.total} €
-            </Typography>
-          </PriceRow>
+            <Box></Box>
 
-          <BookingButton
-            fullWidth
-            disableElevation
-            variant="contained"
-            data-testid="bike-booking-button"
-          >
-            Add to booking
-          </BookingButton>
-        </OverviewContainer>
+            {isMobileScreen ? (
+              <>
+                <MobileDatePicker onClick={toggleMobileDrawer}>
+                  <CalendarIcon />
+                  {mobileDataLabel}
+                </MobileDatePicker>
+                <SwipeableDrawer open={openMobileDrawer} toggleOpen={toggleMobileDrawer}>
+                  <Calendar defaultPeriod={selectedPeriod} onChangePeriod={onChangePeriod} />
+                  <MobileSelectDateButton type="button" onClick={toggleMobileDrawer}>
+                    Select
+                  </MobileSelectDateButton>
+                </SwipeableDrawer>
+              </>
+            ) : (
+              <CalendarContainer>
+                <Calendar onChangePeriod={onChangePeriod} />
+              </CalendarContainer>
+            )}
+            <Typography variant="h2" fontSize={16} marginBottom={1.25} marginTop={'22px'}>
+              Booking Overview
+            </Typography>
+
+            <Divider />
+
+            <PriceRow marginTop={1.75} data-testid="bike-overview-single-price">
+              <Box display="flex" alignItems="center">
+                <Typography marginRight={1}>Subtotal</Typography>
+                <InfoIcon fontSize="small" />
+              </Box>
+
+              <Typography>{prices.subtotal} €</Typography>
+            </PriceRow>
+
+            <PriceRow marginTop={1.5} data-testid="bike-overview-single-price">
+              <Box display="flex" alignItems="center">
+                <Typography marginRight={1}>Service Fee</Typography>
+                <InfoIcon fontSize="small" />
+              </Box>
+
+              <Typography>{servicesFee} €</Typography>
+            </PriceRow>
+
+            <PriceRow marginTop={1.75} data-testid="bike-overview-total">
+              <Typography fontWeight={800} fontSize={16}>
+                Total
+              </Typography>
+              <Typography variant="h2" fontSize={24} letterSpacing={1}>
+                {prices.total} €
+              </Typography>
+            </PriceRow>
+
+            <BookingButton
+              fullWidth
+              disableElevation
+              variant="contained"
+              data-testid="bike-booking-button"
+              onClick={rent}
+            >
+              {isLoading ? <CircularProgress size={20} color={'secondary'} /> : 'Add to booking'}
+            </BookingButton>
+          </OverviewContainer>
+        )}
       </Content>
+      <BookedModal open={openBookedModal} onClose={toggleBookedModal}>
+        <BookedModalContainer>
+          <BookedBike bike={bike} />
+        </BookedModalContainer>
+      </BookedModal>
     </div>
   );
 };

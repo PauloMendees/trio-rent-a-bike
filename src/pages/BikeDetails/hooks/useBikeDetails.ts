@@ -3,6 +3,13 @@ import Bike from 'models/Bike';
 import { useMemo, useState } from 'react';
 import { abreviatedMonths } from 'utils/calendar';
 import { getServicesFee } from '../BikeDetails.utils';
+import apiClient from 'services/api';
+import { userDataKey } from 'config/localStorage';
+import { User } from 'models/User';
+import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
+import { useMediaQuery } from '@mui/material';
+import theme from 'styles/theme';
 
 type Props = {
   bike?: Bike;
@@ -16,7 +23,14 @@ export const useBikeDetails = ({ bike }: Props) => {
 
   const [selectedPeriod, setSelectedPeriod] = useState<Period>();
   const [openMobileDrawer, setOpenMobileDrawer] = useState(false);
+  const [isBooked, setIsBooked] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [openBookedModal, setOpenBookedModal] = useState<boolean>(false);
 
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const toggleBookedModal = () => setOpenBookedModal((state) => !state);
+  const toggleBooked = () => setIsBooked((state) => !state);
   const toggleMobileDrawer = () => setOpenMobileDrawer((state) => !state);
 
   const onChangePeriod = (period: Period) => {
@@ -55,7 +69,39 @@ export const useBikeDetails = ({ bike }: Props) => {
     }`;
   }, [selectedPeriod]);
 
+  const rent = async () => {
+    try {
+      setIsLoading(true);
+      const userDataJson = window.localStorage.getItem(userDataKey);
+      if (!userDataJson) return toast.error('You must sign up to rent a bike');
+      const parsedUserData = JSON.parse(userDataJson || '{}') as User;
+
+      if (!selectedPeriod) return toast.error('You must select a period to rent a bike');
+
+      await apiClient.post('/bikes/rent', {
+        bikeId: bike?.id,
+        userId: parsedUserData.id,
+        dateFrom: selectedPeriod?.startDate.format('YYYY-MM-DD'),
+        dateTo: selectedPeriod?.endDate.format('YYYY-MM-DD'),
+      });
+
+      if (isMobileScreen) {
+        toggleBookedModal();
+      } else {
+        toggleBooked();
+      }
+    } catch (error) {
+      if (error instanceof AxiosError)
+        return toast.error(error.response?.data?.message || 'Error renting bike');
+      toast.error('Error renting bike');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
+    openBookedModal,
+    toggleBookedModal,
     openMobileDrawer,
     mobileDataLabel,
     selectedPeriod,
@@ -65,5 +111,8 @@ export const useBikeDetails = ({ bike }: Props) => {
     rateByWeek,
     servicesFee,
     prices,
+    isBooked,
+    rent,
+    isLoading,
   };
 };

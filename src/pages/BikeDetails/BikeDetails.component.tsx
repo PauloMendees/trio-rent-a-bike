@@ -151,7 +151,6 @@ const BikeDetails = ({ bike }: BikeDetailsProps) => {
             <Typography variant="h2" fontSize={24} fontWeight={'800'}>
               Select date and time
             </Typography>
-            <Box></Box>
 
             {isMobileScreen ? (
               <>

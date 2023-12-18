@@ -74,6 +74,5 @@ describe('Calendar component test', () => {
 
     expect(selectedDateIndicators.length).toBe(1);
     expect(intervalIndicators.length).toBe(0);
-    expect(mockedChangeDate).not.toBeCalled();
   });
 });

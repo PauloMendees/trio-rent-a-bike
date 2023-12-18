@@ -25,6 +25,8 @@ export const useBikeDetails = ({ bike }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openBookedModal, setOpenBookedModal] = useState<boolean>(false);
 
+  console.log(selectedPeriod.startDate?.month());
+
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const toggleBookedModal = () => setOpenBookedModal((state) => !state);
@@ -61,9 +63,9 @@ export const useBikeDetails = ({ bike }: Props) => {
   const mobileDataLabel = useMemo(() => {
     return `From ${
       selectedPeriod.startDate ? abreviatedMonths[selectedPeriod.startDate.month()] : '--'
-    }/${selectedPeriod.startDate ? abreviatedMonths[selectedPeriod.startDate.date()] : '--'} to ${
+    }/${selectedPeriod.startDate ? selectedPeriod.startDate.date() : '--'} to ${
       selectedPeriod.endDate ? abreviatedMonths[selectedPeriod.endDate.month()] : '--'
-    }/${selectedPeriod.endDate ? abreviatedMonths[selectedPeriod.endDate.date()] : '--'}`;
+    }/${selectedPeriod.endDate ? selectedPeriod.endDate.date() : '--'}`;
   }, [selectedPeriod]);
 
   const rent = async () => {

@@ -6,8 +6,8 @@ export type Period = {
 };
 
 export type CalendarComponentProps = {
-  defaultPeriod?: Period;
-  onChangePeriod?: (period: Period) => void;
+  defaultPeriod?: Partial<Period>;
+  onChangePeriod?: (period: Partial<Period>) => void;
 };
 
 export type StyledDayProps = {

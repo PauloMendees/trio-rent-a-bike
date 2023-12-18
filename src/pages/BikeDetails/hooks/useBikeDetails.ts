@@ -19,7 +19,7 @@ export const useBikeDetails = ({ bike }: Props) => {
   const rateByDay = bike?.rate || 0;
   const rateByWeek = rateByDay * 7;
 
-  const [selectedPeriod, setSelectedPeriod] = useState<Period>();
+  const [selectedPeriod, setSelectedPeriod] = useState<Partial<Period>>({});
   const [openMobileDrawer, setOpenMobileDrawer] = useState(false);
   const [isBooked, setIsBooked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -31,12 +31,12 @@ export const useBikeDetails = ({ bike }: Props) => {
   const toggleBooked = () => setIsBooked((state) => !state);
   const toggleMobileDrawer = () => setOpenMobileDrawer((state) => !state);
 
-  const onChangePeriod = (period: Period) => {
+  const onChangePeriod = (period: Partial<Period>) => {
     setSelectedPeriod(period);
   };
 
   const prices = useMemo(() => {
-    if (!selectedPeriod)
+    if (!selectedPeriod || !selectedPeriod.startDate || !selectedPeriod.endDate)
       return {
         subtotal: 0,
         total: 0,
@@ -60,14 +60,10 @@ export const useBikeDetails = ({ bike }: Props) => {
 
   const mobileDataLabel = useMemo(() => {
     return `From ${
-      selectedPeriod
-        ? `${abreviatedMonths[selectedPeriod.startDate.month()]}/${selectedPeriod.startDate.date()}`
-        : '--/--'
-    } to ${
-      selectedPeriod
-        ? `${abreviatedMonths[selectedPeriod.endDate.month()]}/${selectedPeriod.endDate.date()}`
-        : '--/--'
-    }`;
+      selectedPeriod.startDate ? abreviatedMonths[selectedPeriod.startDate.month()] : '--'
+    }/${selectedPeriod.startDate ? abreviatedMonths[selectedPeriod.startDate.date()] : '--'} to ${
+      selectedPeriod.endDate ? abreviatedMonths[selectedPeriod.endDate.month()] : '--'
+    }/${selectedPeriod.endDate ? abreviatedMonths[selectedPeriod.endDate.date()] : '--'}`;
   }, [selectedPeriod]);
 
   const rent = async () => {
@@ -77,7 +73,8 @@ export const useBikeDetails = ({ bike }: Props) => {
       if (!userDataJson) return toast.error('You must sign up to rent a bike');
       const parsedUserData = JSON.parse(userDataJson || '{}') as User;
 
-      if (!selectedPeriod) return toast.error('You must select a period to rent a bike');
+      if (!selectedPeriod.startDate || !selectedPeriod.endDate)
+        return toast.error('You must select a period to rent a bike');
 
       await apiClient.post('/bikes/rent', {
         bikeId: bike?.id,

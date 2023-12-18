@@ -9,7 +9,7 @@ export const useCalendar = ({ onChangePeriod, defaultPeriod }: CalendarComponent
   const [period, setPeriod] = useState<Partial<Period>>(defaultPeriod || {});
 
   useEffect(() => {
-    if (period.endDate && period.startDate && onChangePeriod) {
+    if (onChangePeriod) {
       onChangePeriod(period as Period);
     }
   }, [period]);

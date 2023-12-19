@@ -1,12 +1,12 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface Transitions {
-    hover: string
+    hover: string;
   }
 
   interface TransitionsOptions {
-    hover?: string
+    hover?: string;
   }
 }
 
@@ -16,15 +16,21 @@ const theme = createTheme({
       main: '#1F49D1',
       light: '#C1CFF2',
       600: '#577CDD',
+      contrastText: '#5071DB',
     },
     secondary: {
       main: '#FFD775',
     },
     grey: {
+      100: 'rgba(237, 237, 237, 1)',
       500: '#EDEDED',
     },
     common: {
       black: '#1B1B1B',
+      white: 'rgba(255, 255, 255, 1)',
+    },
+    error: {
+      main: '#FF0000',
     },
   },
   typography: {
@@ -49,6 +55,6 @@ const theme = createTheme({
   transitions: {
     hover: '0.2s',
   },
-})
+});
 
-export default theme
+export default theme;

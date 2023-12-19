@@ -13,7 +13,7 @@ export const Container = styled(Box)(() => ({
   },
 }));
 
-export const LoginCard = styled(Box)(() => ({
+export const SignupCard = styled(Box)(() => ({
   maxWidth: '500px',
   padding: '24px',
   width: '100%',

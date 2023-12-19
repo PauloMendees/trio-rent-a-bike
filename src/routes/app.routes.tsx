@@ -1,8 +1,9 @@
-import { Route, Routes } from 'react-router-dom'
-import Home from 'pages/Home'
-import Login from 'pages/Login'
-import BikeDetails from 'pages/BikeDetails'
-import { Paths } from './paths'
+import { Route, Routes } from 'react-router-dom';
+import Home from 'pages/Home';
+import Login from 'pages/Login';
+import BikeDetails from 'pages/BikeDetails';
+import { Paths } from './paths';
+import Signup from 'pages/Signup';
 
 const AppRoutes = () => {
   return (
@@ -10,8 +11,9 @@ const AppRoutes = () => {
       <Route path={Paths.HOME} element={<Home />} />
       <Route path={Paths.LOGIN} element={<Login />} />
       <Route path={Paths.BIKE_DETAILS} element={<BikeDetails />} />
+      <Route path={Paths.SIGN_UP} element={<Signup />} />
     </Routes>
-  )
-}
+  );
+};
 
-export default AppRoutes
+export default AppRoutes;
